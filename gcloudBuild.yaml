@@ -1,0 +1,33 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '-t'
+      - us-east1-docker.pkg.dev/yf-api-468304/yf-api/yf-api:tag1
+      - .
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - us-east1-docker.pkg.dev/yf-api-468304/yf-api/yf-api:tag1
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    args:
+      - run
+      - deploy
+      - yf-api
+      - '--image'
+      - us-east1-docker.pkg.dev/yf-api-468304/yf-api/yf-api:tag1
+      - '--region'
+      - us-east1
+      - '--platform'
+      - managed
+      - '--min-instances'
+      - '0'
+      - '--max-instances'
+      - '1'
+      - '--allow-unauthenticated'
+    entrypoint: gcloud
+images:
+  - >-
+    us-east1-docker.pkg.dev/yf-api-468304/yf-api/yf-api:tag1
+options:
+  logging: CLOUD_LOGGING_ONLY
