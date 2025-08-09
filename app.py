@@ -1,6 +1,5 @@
 # app.py
 from flask import Flask, request, jsonify, Response
-import robin_stocks.robinhood as robin_stocks
 
 from src.options import options 
 from src.stockInfo import stockInfo

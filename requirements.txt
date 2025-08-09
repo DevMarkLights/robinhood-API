@@ -1,5 +1,5 @@
-robin_stocks
 flask
 yfinance
 scipy
 numpy
+yahooquery
