@@ -46,7 +46,7 @@ def getOptions(ticker: str):
         inTheMoney = row['inTheMoney']
         if ret > .02:
             ret = ret*100
-            putsWith2_return[price2] = {'premium':'$'+str(bid*100),'return':'%'+str(round(ret,4)),'collateral':'$'+str(price2*100),'inTheMoney': inTheMoney}
+            putsWith2_return[price2] = {'premium':'$'+str(round((bid*100),2)),'return':'%'+str(round(ret,4)),'collateral':'$'+str(price2*100),'inTheMoney': inTheMoney}
     
     filtered_calls = calls[calls['strike'] < price+filterBy]
     filtered_calls = filtered_calls[filtered_calls['strike'] > price - filterBy]
