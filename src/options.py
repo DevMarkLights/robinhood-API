@@ -113,7 +113,7 @@ def filterOptions(price):
 
 def rotOptions(options,rot):
 
-    optionsROT={}
+    optionsROT=[]
     i = 0
     for index, row in options.iterrows():
         price2 = row['strike']
@@ -123,7 +123,7 @@ def rotOptions(options,rot):
         iv = round(row['impliedVolatility']*100,3)
         if ret > rot:
             ret = ret*100
-            optionsROT[i] = {'strike':price2,'premium':'$'+str(round((bid*100),2)),'return':'%'+str(round(ret,4)),'collateral':'$'+str(price2*100),'inTheMoney': inTheMoney,"iv":iv}
+            optionsROT.append({'strike':price2,'premium':'$'+str(round((bid*100),2)),'return':'%'+str(round(ret,4)),'collateral':'$'+str(price2*100),'inTheMoney': inTheMoney,"iv":iv})
             i+=1
         
         
