@@ -75,11 +75,11 @@ def postOptions(ticker: str):
     puts = options.puts
     filterBy = filterOptions(price)
 
-    filtered_puts = puts[puts['strike'] < price + filterBy]
+    filtered_puts = puts[puts['strike'] < price]
     filtered_puts = filtered_puts[filtered_puts['strike'] > price - filterBy]
 
     filtered_calls = calls[calls['strike'] < price+filterBy]
-    filtered_calls = filtered_calls[filtered_calls['strike'] > price - filterBy]
+    filtered_calls = filtered_calls[filtered_calls['strike'] > price]
 
     putsWithRequestReturn=rotOptions(filtered_puts,rot)
     callsWithRequestReturn=rotOptions(filtered_calls,rot)
@@ -114,7 +114,6 @@ def filterOptions(price):
 def rotOptions(options,rot):
 
     optionsROT=[]
-    i = 0
     for index, row in options.iterrows():
         price2 = row['strike']
         bid = row['bid']
@@ -124,7 +123,6 @@ def rotOptions(options,rot):
         if ret > rot:
             ret = ret*100
             optionsROT.append({'strike':price2,'premium':'$'+str(round((bid*100),2)),'return':'%'+str(round(ret,4)),'collateral':'$'+str(price2*100),'inTheMoney': inTheMoney,"iv":iv})
-            i+=1
         
         
     return optionsROT
