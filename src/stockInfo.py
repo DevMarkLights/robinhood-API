@@ -73,7 +73,7 @@ def getStockInfo(ticker: str):
             "summary":summary,
             "dividends":dividends,
             "beta": beta,
-            "dividend": schedule,
+            "schedule": schedule,
             "divYield":divYield}
 
     return jsonify(json)
