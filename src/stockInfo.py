@@ -75,10 +75,12 @@ def getStockInfo(ticker: str):
             dividends[str(value).split(" ")[0]] = amounts[index]
 
     schedule = None
+    divPerShare=None
     if divYield is None and dividends:
         res = calculateDividendYield(dividends,price)
         divYield = res[0]
         schedule = res[1]
+        divPerShare = res[2]
     else:
         if len(dividends) > 0:
             res = calculateDividendYield(dividends,price)
@@ -93,6 +95,7 @@ def getStockInfo(ticker: str):
             "summary":summary,
             "dividends":dividends,
             "beta": beta,
+            "divPerShare":divPerShare,
             "bookValue":bookValue,
             "priceToBookValue":priceToBookValue,
             "recommendations":recommendations,
@@ -114,14 +117,14 @@ def calculateDividendYield(dividends,price):
             # check if weekly dividend
             if prevPrevDivMonth == prevDivMonth or prevDivMonth == currentDivMonth:
                 dividend = float(dividends[keys[0]] * 52)
-                return [round(dividend / price,2),"weekly"]
+                return [round(dividend / price,4),"weekly",dividend]
 
             if abs(prevDivMonth - currentDivMonth) == 1: # monthly
                 dividend = float(dividends[keys[0]] * 12)                
-                return [round(dividend / price,2),"monthly"]
+                return [round(dividend / price,4),"monthly",dividend]
             else:                                   # quarterly
                 dividend = float(dividends[keys[0]] * 4)
-                return [round(dividend / price,2),"quartely"]
+                return [round(dividend / price,4),"quartely",dividend]
 
 
             break
