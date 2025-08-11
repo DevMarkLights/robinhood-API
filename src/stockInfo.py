@@ -60,11 +60,11 @@ def getStockInfo(ticker: str):
 
     schedule = None
     if divYield is None and not dividends:
-        res = round(calculateDividendYield(dividends,price),2)
+        res = calculateDividendYield(dividends,price)
         divYield = res[0]
         schedule = res[1]
     else :
-        res = round(calculateDividendYield(dividends,price),2)
+        res = calculateDividendYield(dividends,price)
         schedule = res[1]
     
 
@@ -96,8 +96,8 @@ def calculateDividendYield(dividends,price):
                 dividend = float(dividends[keys[0]] * 52)
                 return [round(dividend / price,2),"weekly"]
 
-            if prevDivMonth - currentDivMonth == 1: # monthly
-                dividend = float(dividends[keys[0]] * 12)
+            if abs(prevDivMonth - currentDivMonth) == 1: # monthly
+                dividend = float(dividends[keys[0]] * 12)                
                 return [round(dividend / price,2),"monthly"]
             else:                                   # quarterly
                 dividend = float(dividends[keys[0]] * 4)
