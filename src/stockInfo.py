@@ -57,9 +57,12 @@ def getStockInfo(ticker: str):
 
         for index,value in enumerate(dates):
             dividends[str(value).split(" ")[0]] = amounts[index]
-    
+
+    schedule = None
     if divYield is None and not dividends:
-        divYield = round(calculateDividendYield(dividends,price),2)
+        res = round(calculateDividendYield(dividends,price),2)
+        divYield = res[0]
+        schedule = res[1]
     
 
     json = {'symbol':ticker,
@@ -70,6 +73,7 @@ def getStockInfo(ticker: str):
             "summary":summary,
             "dividends":dividends,
             "beta": beta,
+            "dividend": schedule,
             "divYield":divYield}
 
     return jsonify(json)
@@ -87,14 +91,14 @@ def calculateDividendYield(dividends,price):
             # check if weekly dividend
             if prevPrevDivMonth == prevDivMonth or prevDivMonth == currentDivMonth:
                 dividend = float(dividends[keys[0]] * 52)
-                return round(dividend / price,2)
+                return [round(dividend / price,2),"weekly"]
 
             if prevDivMonth - currentDivMonth == 1: # monthly
                 dividend = float(dividends[keys[0]] * 12)
-                return round(dividend / price,2)
+                return [round(dividend / price,2),"monthly"]
             else:                                   # quarterly
                 dividend = float(dividends[keys[0]] * 4)
-                return round(dividend / price,2)
+                return [round(dividend / price,2),"quartely"]
 
 
             break
