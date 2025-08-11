@@ -63,6 +63,9 @@ def getStockInfo(ticker: str):
         res = round(calculateDividendYield(dividends,price),2)
         divYield = res[0]
         schedule = res[1]
+    else :
+        res = round(calculateDividendYield(dividends,price),2)
+        schedule = res[1]
     
 
     json = {'symbol':ticker,
