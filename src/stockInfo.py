@@ -42,6 +42,23 @@ def getStockInfo(ticker: str):
     beta = None
     if 'beta' in stock.info and stock.info['beta'] is not None:
         beta = stock.info['beta']
+
+    bookValue=None
+    if 'bookValue' in stock.info:
+        bookValue = stock.info['bookValue']
+
+    priceToBookValue=None
+    if 'priceToBook' in stock.info:
+        priceToBookValue = stock.info['priceToBook']
+    
+    recommendations=None
+    if len(stock.recommendations) > 0:
+        columns = stock.recommendations.columns.to_list()
+        values = []
+        values.append(columns)
+        for index,row in enumerate(stock.recommendations.values):
+            values.append(list(row))
+        recommendations = values
     
 
     dividends={}
@@ -49,23 +66,23 @@ def getStockInfo(ticker: str):
     if 'yield' in stock.info:
         divYield = stock.info['yield']
 
-    if stock.dividends.empty:
-        dividends['dividends'] = 'no dividends'
-    else:
+    if not stock.dividends.empty:
         dates = stock.dividends[::-1].index
         amounts = stock.dividends[::-1].values
-
+        exDividendDate = dates[len(dates)-1]
+        dividendPayDate = dates[len(dates)-1]
         for index,value in enumerate(dates):
             dividends[str(value).split(" ")[0]] = amounts[index]
 
     schedule = None
-    if divYield is None and not dividends:
+    if divYield is None and dividends:
         res = calculateDividendYield(dividends,price)
         divYield = res[0]
         schedule = res[1]
-    else :
-        res = calculateDividendYield(dividends,price)
-        schedule = res[1]
+    else:
+        if len(dividends) > 0:
+            res = calculateDividendYield(dividends,price)
+            schedule = res[1]
     
 
     json = {'symbol':ticker,
@@ -76,8 +93,11 @@ def getStockInfo(ticker: str):
             "summary":summary,
             "dividends":dividends,
             "beta": beta,
+            "bookValue":bookValue,
+            "priceToBookValue":priceToBookValue,
+            "recommendations":recommendations,
             "schedule": schedule,
-            "divYield":divYield}
+            "divYield":round(divYield,2)}
 
     return jsonify(json)
 
