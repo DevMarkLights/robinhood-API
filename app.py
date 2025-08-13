@@ -3,11 +3,12 @@ from flask import Flask, request, jsonify, Response
 
 from src.options import options 
 from src.stockInfo import stockInfo
+from src.stockInfoMulti import stockInfoMulti
 
 app = Flask(__name__)
 app.register_blueprint(options)
 app.register_blueprint(stockInfo)
-
+app.register_blueprint(stockInfoMulti)
 
 @app.get("/")
 def hello():

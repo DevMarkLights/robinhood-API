@@ -23,6 +23,9 @@ def getStockInfo(ticker: str):
     if len(stock.analyst_price_targets) > 0:
         earnings_estimate = stock.earnings_estimate['avg'].values.tolist()
 
+    sector=None
+    if 'sector' in stock.info and stock.info['sector'] != None:
+        sector = stock.info['sector']
 
     shortName = stock.history_metadata['shortName'] if 'shortName' in stock.history_metadata else ""
     longName = stock.history_metadata['longName'] if 'longName' in stock.history_metadata else ""
@@ -100,6 +103,7 @@ def getStockInfo(ticker: str):
             "priceToBookValue":priceToBookValue,
             "recommendations":recommendations,
             "schedule": schedule,
+            "sector":sector,
             "divYield":round(divYield,2)}
 
     return jsonify(json)
@@ -125,7 +129,3 @@ def calculateDividendYield(dividends,price):
             else:                                   # quarterly
                 dividend = float(dividends[keys[0]] * 4)
                 return [round(dividend / price,4),"quartely",dividend]
-
-
-            break
-        # prevKey = key
