@@ -104,7 +104,7 @@ def getStockInfo(ticker: str):
             "recommendations":recommendations,
             "schedule": schedule,
             "sector":sector,
-            "divYield":round(divYield,2)}
+            "divYield":round(divYield,4)}
 
     return jsonify(json)
 
