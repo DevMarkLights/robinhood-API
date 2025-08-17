@@ -8,9 +8,10 @@ stockInfo = Blueprint('getStockInfo', __name__)
 @stockInfo.route('/ticker/stockInfo/<ticker>')
 def getStockInfo(ticker: str):
     stock = yf.Ticker(ticker)
+    if stock.fast_info.open is None:
+        return {'error':'invalid ticker'}   
+    
     price = stock.fast_info.last_price
-    if price is None:
-        return {'error':'invalid ticker'}
     
     analyst_targets={}
     analyst_targets['high'] = stock.analyst_price_targets.get('high')

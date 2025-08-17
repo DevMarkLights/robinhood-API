@@ -13,10 +13,11 @@ def getStockInfoMulti():
     returnList=[]
     for requestedStock in stocks:
         stock = yf.Ticker(requestedStock)
-
+        if stock.fast_info.open is None:
+            returnList.append({})
+            continue
+        
         price = stock.fast_info.last_price
-        if price is None:
-            return {'error':'invalid ticker'}
     
         analyst_targets={}
         analyst_targets['high'] = stock.analyst_price_targets.get('high')
