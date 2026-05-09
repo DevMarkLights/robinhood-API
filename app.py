@@ -4,11 +4,13 @@ from flask import Flask, request, jsonify, Response
 from src.options import options 
 from src.stockInfo import stockInfo
 from src.stockInfoMulti import stockInfoMulti
+from src.ohlc import OHLC
 
 app = Flask(__name__)
 app.register_blueprint(options)
 app.register_blueprint(stockInfo)
 app.register_blueprint(stockInfoMulti)
+app.register_blueprint(OHLC)
 
 @app.get("/")
 def hello():
