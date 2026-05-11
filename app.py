@@ -12,6 +12,11 @@ app.register_blueprint(stockInfo)
 app.register_blueprint(stockInfoMulti)
 app.register_blueprint(OHLC)
 
+# Add this
+print("Registered routes:")
+for rule in app.url_map.iter_rules():
+    print(rule)
+
 @app.get("/")
 def hello():
     return 'hello'
