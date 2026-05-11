@@ -9,10 +9,10 @@ from datetime import datetime
 OHLC = Blueprint('getOHLC', __name__)
 
 INTERVAL_TO_PERIOD = {
-    '5m': '60d',
-    '15m': '60d',
-    '1h': '730d',
-    '1d': '10y'
+    '5m': '5d',
+    '15m': '30d',
+    '1h': '60d',
+    '1d': '1y'
 }
 
 @OHLC.get('/ticker/ohlc/<ticker>/<timeframe>')
