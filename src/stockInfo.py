@@ -75,8 +75,19 @@ def getStockInfo(ticker: str):
         amounts = stock.dividends[::-1].values
         exDividendDate = dates[len(dates)-1]
         dividendPayDate = dates[len(dates)-1]
+        frequency = ""
         for index,value in enumerate(dates):
             dividends[str(value).split(" ")[0]] = amounts[index]
+        
+        if int(str(dates[0]).split(" ")[0][5:7]) - int(str(dates[1]).split(" ")[0][5:7]) < 2:
+            frequency = 'monthly'
+            Annualdiv = 12 *  amounts[0]
+            divYield = round(Annualdiv / price, 3)
+        elif int(str(dates[0]).split(" ")[0][5:7]) - int(str(dates[1]).split(" ")[0][5:7]) < 4:
+            frequency = 'quartely'
+            Annualdiv = 4 *  amounts[0]
+            divYield = round(Annualdiv / price, 3)
+        
 
     schedule = None
     divPerShare=None
