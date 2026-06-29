@@ -3,3 +3,4 @@ yfinance
 scipy
 numpy
 yahooquery
+cachetools
