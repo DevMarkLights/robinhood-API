@@ -18,12 +18,12 @@ INTERVAL_TO_PERIOD = {
 
 @OHLC.get('/ticker/ohlc/<ticker>/<timeframe>')
 def getOHLC(ticker: str, timeframe: str):
-    cache_key = f"{ticker}:{timeframe}"
-    now = time.time()
-    if cache_key in cache:
-        # entry = cache[cache_key]
-        # if now - entry['timestamp'] < 300:  # 5 minutes
-        return jsonify(cache[cache_key])
+    # cache_key = f"{ticker}:{timeframe}"
+    # now = time.time()
+    # if cache_key in cache:
+    #     # entry = cache[cache_key]
+    #     # if now - entry['timestamp'] < 300:  # 5 minutes
+    #     return jsonify(cache[cache_key])
         
     ticker = yf.Ticker(ticker)
     df = ticker.history(period=INTERVAL_TO_PERIOD[timeframe], interval=timeframe)
@@ -52,9 +52,9 @@ def getOHLC(ticker: str, timeframe: str):
             'timeframe': timeframe,
             'count': len(candles),
             'data': candles,
-            'timestamp': now
+            # 'timestamp': now
         }
-    cache[cache_key] = response
+    # cache[cache_key] = response
     return jsonify(response)
 
 @OHLC.get('/ticker/ohlc/<ticker>/<timeframe>/<interval>')
